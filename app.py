@@ -27,9 +27,9 @@ async def get_data(peak: int, dense: int, empty: int):
         return {"error": f"Failed to read file: {str(e)}"}
 
 @app.get('/sample/get')
-async def get_sample_data(sampleName):
+async def get_sample_data(name):
     try:
-        file_path = os.path.join(os.path.dirname(__file__), f"data/{sampleName}.json")
+        file_path = os.path.join(os.path.dirname(__file__), f"data/{name}.json")
         with open(file_path, "r") as file:
             data = json.load(file)
         return {"data": data}
