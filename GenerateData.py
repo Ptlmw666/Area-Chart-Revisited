@@ -95,18 +95,39 @@ def generateData(peak,denseNum,emptyNum):
         denseMean=Means[0]
         del Means[0]
         print(f"dense中心是：{denseMean/24.0/30}")
-        for j in range(25):
-            value=getNumberInNormalDistribution(denseMean,40)
-            if value  not in arr:
+        # for j in range(50):
+        #     value=getNumberInNormalDistribution(denseMean,80)
+        #     if value  not in arr:
+        #         arr.append(value)
+        #     # arr.append(value)
+        for j in range(61):
+            value=denseMean-90+j*3
+            if value not in arr:
                 arr.append(value)
-            # arr.append(value)
     
     for i in range(emptyNum):
         temp=arr
         emptyMean=Means[0]
         del Means[0]
         print(f"empty中心是：{emptyMean/24.0/30}")
-        arr=[x for x in temp if x < emptyMean-60 or x > emptyMean+60]
+        arr=[x for x in temp if x < emptyMean-120 or x > emptyMean+120]
+        num=len(temp)-len(arr)
+        step=480//num
+        idx=emptyMean//720*720
+        for i in range(num):
+            if idx+(i+1)*step<emptyMean-120:
+                value=idx+(i+1)*step
+                if value not in arr:
+                    arr.append(value)
+            else:
+                now=1
+                value=emptyMean+120+now*step
+                now+=1
+                if value not in arr:
+                    arr.append(value)        
+
+
+
     
     # 去除超出范围的值+排序
     temp_arr=[x for x in arr if 0<=x<8760]
