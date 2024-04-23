@@ -22,7 +22,7 @@ async def get_data(peak: int, dense: int, empty: int):
         file_path = os.path.join(os.path.dirname(__file__), f"data/{peak_string[peak]}_{dense}_{empty}.json")
         with open(file_path, "r") as file:
             data = json.load(file)
-        return {"peak": peak, "dense": dense, "empty": empty, "data": data}
+        return {"data": data}
     except Exception as e:
         return {"error": f"Failed to read file: {str(e)}"}
 
@@ -37,10 +37,15 @@ async def get_sample_data(name):
         return {"error": f"Failed to read file: {str(e)}"}
 
 @app.get('/data/generate')
-async def generate_and_send_data(peak: int, dense: int, empty: int):
+async def generate_and_send_data(peak: int, dense: int, empty: int, isGetAnswer: bool):
     try:
         generated_data = generateDataFile(peak, dense, empty)
-        return {"message": "Successfully generated data", "generated_data": generated_data}
+        newData=get_data(peak, dense, empty)
+        if not isGetAnswer:
+            newData.answer=[]
+        return {"message": "Successfully generated data", 
+                "generated_data": newData}
+
     except Exception as e:
         return {"error": f"Failed to generate data: {str(e)}"}
 

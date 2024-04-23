@@ -190,11 +190,21 @@ def generateDataFile(peak,denseNum,emptyNum):
     data={
         "timeScale1":timeScale1,
         "timeScale2":timeScale2,
-        "timeScale3":timeScale3
+        "timeScale3":timeScale3,
+    }
+    dataSet = {
+        "data":data,
+        "answer":{
+            "month":3,#此处暂时写死，需要更改
+            "week":12#同上
+        },
+        "peak":peak,
+        "denseNum":denseNum,
+        "emptyNum":emptyNum
     }
 
     # 将数据转换为 JSON 格式字符串
-    json_data = json.dumps(data, indent=4)
+    json_data = json.dumps(dataSet, indent=4)
     
     # 拼接文件路径
     file_name = f"{peak_string[peak]}_{denseNum}_{emptyNum}.json"
