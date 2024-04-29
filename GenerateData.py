@@ -163,8 +163,10 @@ def generateDataFile(peak,denseNum,emptyNum):
     
     arr=generateData(peak,denseNum,emptyNum)
 
+    quartermonth=0
     halfmonth=0
     month=0
+    quartermonthTotal=0
     halfmonthTotal=0
     monthTotal=0
 
