@@ -5,7 +5,8 @@ import os
 # from math import sqrt, log, pi, cos, sin
 
 daysOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-daysOfHalfMonth = [15, 16, 15, 14, 15, 16, 15, 15, 15, 16, 15, 15, 15, 16, 15, 16, 15, 15, 15, 16, 15, 15, 15, 16]
+daysOfHalfMonth = [15, 16, 14, 14, 15, 16, 15, 15, 15, 16, 15, 15, 15, 16, 15, 16, 15, 15, 15, 16, 15, 15, 15, 16]
+daysOfQuarterMonth=[7,8,8,8,7,7,7,7,7,8,8,8,7,8,7,8,7,8,8,8,7,8,7,8,7,8,8,8,7,8,8,8,7,8,7,8,7,8,8,8,7,8,7,8,7,8,8,8]
 peak_string = ["zero", "single", "double"]
 
 # 生成符合标准正态分布的数据
@@ -137,10 +138,10 @@ def generateData(peak,denseNum,emptyNum):
     
 def generateDataFile(peak,denseNum,emptyNum):
     timeScale1=[]
-    for i in range(52):
+    for i in range(48):
         timeScale1.append({
             "largeScale":i+1,
-            "timeRange":(8 if i==51 else 7)*24,
+            "timeRange":daysOfQuarterMonth[i]*24,
             "time":[]
         })
     
@@ -171,9 +172,10 @@ def generateDataFile(peak,denseNum,emptyNum):
         day=int(val/24)
 
         # 周
-        week=int(val/24/7)
-        week = 51 if week==52 else week
-        timeScale1[week]["time"].append(val-week*7*24)
+        if day>=quartermonthTotal+daysOfQuarterMonth[quartermonth]:
+            quartermonthTotal+=daysOfQuarterMonth[quartermonth]
+            quartermonth+=1
+        timeScale1[quartermonth]["time"].append(val-quartermonthTotal*24)
 
         # 半月
         if day>=halfmonthTotal+daysOfHalfMonth[halfmonth]:
@@ -190,21 +192,11 @@ def generateDataFile(peak,denseNum,emptyNum):
     data={
         "timeScale1":timeScale1,
         "timeScale2":timeScale2,
-        "timeScale3":timeScale3,
-    }
-    dataSet = {
-        "data":data,
-        "answer":{
-            "month":3,#此处暂时写死，需要更改
-            "week":12#同上
-        },
-        "peak":peak,
-        "denseNum":denseNum,
-        "emptyNum":emptyNum
+        "timeScale3":timeScale3
     }
 
     # 将数据转换为 JSON 格式字符串
-    json_data = json.dumps(dataSet, indent=4)
+    json_data = json.dumps(data, indent=4)
     
     # 拼接文件路径
     file_name = f"{peak_string[peak]}_{denseNum}_{emptyNum}.json"
