@@ -343,6 +343,7 @@ def generateDataFile(peak,denseNum,emptyNum):
         option.extend(["no","not sure"])
         if int(questionAns[i])!=-1:
             option[random.randint(0,3)]=questionAns[i]
+        option[:4] = sorted(option[:4], key=int)
         options.append(option)
         if int(questionAns[i])==-1:
             answerIdx.append(4)
@@ -363,6 +364,7 @@ def generateDataFile(peak,denseNum,emptyNum):
     option.extend(["no","not sure"])
     if denseNum!=0:
         option[random.randint(0,3)]=questionAns[2]
+    option[:4]=sorted(option[:4], key=lambda x: (int(x.split('-')[0]), int(x.split('-')[1])))
     options.append(option)
     if denseNum==0:        
         answerIdx.append(4)
@@ -395,6 +397,7 @@ def generateDataFile(peak,denseNum,emptyNum):
             option.append(f"{random_value1}-{random_value2}")
         option.extend(["no","not sure"])
         option[random.randint(0,3)]=questionAns[3]
+    option[:4]=sorted(option[:4], key=lambda x: (int(x.split('-')[0]), int(x.split('-')[1])))
     options.append(option)
     if emptyNum==0:        
         answerIdx.append(4)
@@ -411,12 +414,13 @@ def generateDataFile(peak,denseNum,emptyNum):
             "question":questions[i],
             "questionId":i,
             "options":options[i],
-            "answerIdx":answerIdx[i]
+            # "answerIdx":answerIdx[i]
         })
     
     print(f"正确答案：{questionAns}")
     print(f"选项：{options}")
     print(f"正确索引：{answerIdx}")
+
 
     # 将数据转换为 JSON 格式字符串
     json_data = json.dumps(data, indent=4)
@@ -434,20 +438,46 @@ def generateDataFile(peak,denseNum,emptyNum):
         print("写入出错了:", e)
     
 
-        # 将数据转换为 JSON 格式字符串
+    # 将练习题以及答案记录下来
+    # 将数据转换为 JSON 格式字符串
     json_originData = json.dumps(originData, indent=4)
     
     # 拼接文件路径
-    file_name1 = f"{peak_string[peak]}_{denseNum}_{emptyNum}.json"
-    file_path1 = os.path.join("trial_data/lab1/exercise", file_name1)
+    file_name = f"{peak_string[peak]}_{denseNum}_{emptyNum}.json"
+    file_path = os.path.join("trial_data/lab1/formal", file_name)
     
     try:
-        # 将 JSON 数据写入文件
-        with open(file_path1, "w") as file:
+        with open(file_path, "w") as file:
             file.write(json_originData)
         print("文件写入成功")
     except Exception as e:
         print("写入出错了:", e)
+
+
+
+    
+    #存储所有试题答案
+    file_name = "all_answers.json"
+    file_path = os.path.join("trial_data/lab1",file_name)
+
+    # 读取现有的 JSON 文件
+    if os.path.exists(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            allAns = json.load(file)
+    else:
+        allAns = []
+
+    # 添加新的元素
+    for i in range(4):
+        allAns.append({
+            "problemId": problemId,
+            "questionId": i,
+            "answerIdx": answerIdx[i]
+        })
+
+    # 将更新后的列表写回 JSON 文件
+    with open(file_path, 'w', encoding='utf-8') as file:
+        json.dump(allAns, file, indent=4)
 
     
 #     # 指定要输出的文件路径

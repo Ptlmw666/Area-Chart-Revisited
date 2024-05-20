@@ -1,0 +1,182 @@
+[
+    {
+        "problemId": "zero_0_2",
+        "questionId": 0,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "zero_0_2",
+        "questionId": 1,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "zero_0_2",
+        "questionId": 2,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "zero_0_2",
+        "questionId": 3,
+        "answerIdx": 0
+    },
+    {
+        "problemId": "zero_1_1",
+        "questionId": 0,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "zero_1_1",
+        "questionId": 1,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "zero_1_1",
+        "questionId": 2,
+        "answerIdx": 0
+    },
+    {
+        "problemId": "zero_1_1",
+        "questionId": 3,
+        "answerIdx": 2
+    },
+    {
+        "problemId": "zero_2_0",
+        "questionId": 0,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "zero_2_0",
+        "questionId": 1,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "zero_2_0",
+        "questionId": 2,
+        "answerIdx": 0
+    },
+    {
+        "problemId": "zero_2_0",
+        "questionId": 3,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "single_0_2",
+        "questionId": 0,
+        "answerIdx": 2
+    },
+    {
+        "problemId": "single_0_2",
+        "questionId": 1,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "single_0_2",
+        "questionId": 2,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "single_0_2",
+        "questionId": 3,
+        "answerIdx": 2
+    },
+    {
+        "problemId": "single_1_1",
+        "questionId": 0,
+        "answerIdx": 1
+    },
+    {
+        "problemId": "single_1_1",
+        "questionId": 1,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "single_1_1",
+        "questionId": 2,
+        "answerIdx": 2
+    },
+    {
+        "problemId": "single_1_1",
+        "questionId": 3,
+        "answerIdx": 1
+    },
+    {
+        "problemId": "single_2_0",
+        "questionId": 0,
+        "answerIdx": 0
+    },
+    {
+        "problemId": "single_2_0",
+        "questionId": 1,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "single_2_0",
+        "questionId": 2,
+        "answerIdx": 1
+    },
+    {
+        "problemId": "single_2_0",
+        "questionId": 3,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "double_0_2",
+        "questionId": 0,
+        "answerIdx": 0
+    },
+    {
+        "problemId": "double_0_2",
+        "questionId": 1,
+        "answerIdx": 2
+    },
+    {
+        "problemId": "double_0_2",
+        "questionId": 2,
+        "answerIdx": 4
+    },
+    {
+        "problemId": "double_0_2",
+        "questionId": 3,
+        "answerIdx": 1
+    },
+    {
+        "problemId": "double_1_1",
+        "questionId": 0,
+        "answerIdx": 1
+    },
+    {
+        "problemId": "double_1_1",
+        "questionId": 1,
+        "answerIdx": 2
+    },
+    {
+        "problemId": "double_1_1",
+        "questionId": 2,
+        "answerIdx": 1
+    },
+    {
+        "problemId": "double_1_1",
+        "questionId": 3,
+        "answerIdx": 3
+    },
+    {
+        "problemId": "double_2_0",
+        "questionId": 0,
+        "answerIdx": 0
+    },
+    {
+        "problemId": "double_2_0",
+        "questionId": 1,
+        "answerIdx": 2
+    },
+    {
+        "problemId": "double_2_0",
+        "questionId": 2,
+        "answerIdx": 3
+    },
+    {
+        "problemId": "double_2_0",
+        "questionId": 3,
+        "answerIdx": 4
+    }
+]
