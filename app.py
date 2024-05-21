@@ -20,6 +20,7 @@ peak_string = ["zero", "single", "double"]
 async def get_data(peak: int, dense: int, empty: int):
     try:
         file_path = os.path.join(os.path.dirname(__file__), f"data/{peak_string[peak]}_{dense}_{empty}.json")
+        # file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab1/exercise/{peak_string[peak]}_{dense}_{empty}.json")
         with open(file_path, "r") as file:
             data = json.load(file)
         return {"peak": peak, "dense": dense, "empty": empty, "data": data}
@@ -50,13 +51,13 @@ async def generate_trail_problem(labIdx: int,type: int):
     try:
         doc=["exercise","formal"]
         if type==0:
-            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab{labIdx}/{doc[type]}/single_1_1.json")
+            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab1/{doc[type]}/single_1_1.json")
             with open(file_path, "r") as file:
                 originData = json.load(file)
             return {"data": originData}
         if type==1:
             originData=[]
-            folder_path = f"trial_data/lab{labIdx}/{doc[type]}"
+            folder_path = f"trial_data/lab1/{doc[type]}"
             for filename in os.listdir(folder_path):
                 file_path = os.path.join(folder_path, filename)
                 with open(file_path, "r") as file:
