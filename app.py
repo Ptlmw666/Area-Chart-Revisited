@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import os
 import json
 from GenerateData import generateDataFile
+from SaveData import saveData
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -16,6 +17,16 @@ app.add_middleware(
 
 peak_string = ["zero", "single", "double"]
 
+#前端中生成数据请求响应
+@app.get('/data/generate')
+async def generate_and_send_data(peak: int, dense: int, empty: int):
+    try:
+        generated_data = generateDataFile(peak, dense, empty)
+        return {"message": "Successfully generated data", "generated_data": generated_data}
+    except Exception as e:
+        return {"error": f"Failed to generate data: {str(e)}"}
+
+#前端的数据请求响应
 @app.get('/data/get')
 async def get_data(peak: int, dense: int, empty: int):
     try:
@@ -27,6 +38,7 @@ async def get_data(peak: int, dense: int, empty: int):
     except Exception as e:
         return {"error": f"Failed to read file: {str(e)}"}
 
+#前端中样本数据的请求响应
 @app.get('/sample/get')
 async def get_sample_data(name):
     try:
@@ -37,27 +49,21 @@ async def get_sample_data(name):
     except Exception as e:
         return {"error": f"Failed to read file: {str(e)}"}
 
-@app.get('/data/generate')
-async def generate_and_send_data(peak: int, dense: int, empty: int):
-    try:
-        generated_data = generateDataFile(peak, dense, empty)
-        return {"message": "Successfully generated data", "generated_data": generated_data}
-    except Exception as e:
-        return {"error": f"Failed to generate data: {str(e)}"}
     
 
+#前端中实验数据的请求响应
 @app.get('/experiment/get')
 async def generate_trail_problem(labIdx: int,type: int):
     try:
         doc=["exercise","formal"]
         if type==0:
-            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab1/{doc[type]}/single_1_1.json")
+            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab{labIdx}/{doc[type]}/single_1_1.json")
             with open(file_path, "r") as file:
                 originData = json.load(file)
             return {"data": originData}
         if type==1:
             originData=[]
-            folder_path = f"trial_data/lab1/{doc[type]}"
+            folder_path = f"trial_data/lab{labIdx}/{doc[type]}"
             for filename in os.listdir(folder_path):
                 file_path = os.path.join(folder_path, filename)
                 with open(file_path, "r") as file:
@@ -66,6 +72,17 @@ async def generate_trail_problem(labIdx: int,type: int):
             return {"data": originData}                
     except Exception as e:
         return {"error": f"Failed to read file: {str(e)}"}
+    
+#接收前端的实验结果并处理
+@app.post('/experiment/submit')
+async def receive_experiment_data(data: dict,labIdx: int):
+    try:
+        print(data)
+        # 在这里处理接收到的数据
+        saveData(data,labIdx)
+        return {"message": "Data received successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to process data: {str(e)}")
 
 
 if __name__ == '__main__':
