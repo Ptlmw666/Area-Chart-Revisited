@@ -50,7 +50,7 @@ def saveData(data: dict,labIdx: int):
     class Answer(Base):
         __tablename__ = "answers"
         id = Column(Integer, primary_key=True, index=True)
-        answer = Column(Integer)
+        answer = Column(String(10))
         spend_time = Column(Integer)
         problem_id = Column(Integer, ForeignKey('problems.id'))
 
