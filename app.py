@@ -75,10 +75,11 @@ async def generate_trail_problem(labIdx: int,type: int):
     
 #接收前端的实验结果并处理
 @app.post('/experiment/submit')
-async def receive_experiment_data(data: dict,labIdx: int):
+async def receive_experiment_data(data: dict):
     try:
         print(data)
         # 在这里处理接收到的数据
+        labIdx=data["labIdx"]+1
         saveData(data,labIdx)
         return {"message": "Data received successfully"}
     except Exception as e:
