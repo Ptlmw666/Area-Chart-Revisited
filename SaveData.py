@@ -50,7 +50,7 @@ def saveData(data: dict,labIdx: int):
     class Answer(Base):
         __tablename__ = "answers"
         id = Column(Integer, primary_key=True, index=True)
-        answer = Column(String(10))
+        answerIdx = Column(Integer)
         spend_time = Column(Integer)
         problem_id = Column(Integer, ForeignKey('problems.id'))
 
@@ -102,7 +102,7 @@ def saveData(data: dict,labIdx: int):
             
         for answer in problem["answers"]:
             db_answer = Answer(
-                answer=answer["answer"],
+                answerIdx=int(answer["answer"]),
                 spend_time=answer["spendTime"],
                 problem_id=db_problem.id
             )

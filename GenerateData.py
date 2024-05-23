@@ -410,11 +410,12 @@ def generateDataFile(peak,denseNum,emptyNum):
     for i in range(4):
         originData.append({
             "data":data,
+            "Id":problemId+"_"+str(i),
             "problemId":problemId,
             "question":questions[i],
             "questionId":i,
             "options":options[i],
-            # "answerIdx":answerIdx[i]
+            "answerIdx":answerIdx[i]
         })
     
     print(f"正确答案：{questionAns}")
@@ -444,7 +445,7 @@ def generateDataFile(peak,denseNum,emptyNum):
     
     # 拼接文件路径
     file_name = f"{peak_string[peak]}_{denseNum}_{emptyNum}.json"
-    file_path = os.path.join("trial_data/lab1/formal", file_name)
+    file_path = os.path.join("trial_data/lab1/exercise", file_name)
     
     try:
         with open(file_path, "w") as file:
@@ -470,6 +471,7 @@ def generateDataFile(peak,denseNum,emptyNum):
     # 添加新的元素
     for i in range(4):
         allAns.append({
+            "Id":problemId+"_"+str(i),
             "problemId": problemId,
             "questionId": i,
             "answerIdx": answerIdx[i]
