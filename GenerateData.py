@@ -97,6 +97,7 @@ def generateOriginData(peak):
 
 def generateData(peak,denseNum,emptyNum):
     arr,mean=generateOriginData(peak)
+    denseAns=[]
     emptyAns=[]
     # print(f"mean的值是：{mean}")
     # for value in mean:
@@ -128,8 +129,8 @@ def generateData(peak,denseNum,emptyNum):
     for i in range(denseNum):
         denseMean=Means[0]
         del Means[0]
-        print(f"dense中心是：{denseMean/24.0/30}")
-        # print(f"dense出现在第{int(denseMean/24/30+1)}个月的第{int(denseMean/24/30*4)-int(denseMean/720)*4+1}部分")
+        print(f"dense出现在第{int(denseMean/24/30+1)}个月的第{int(denseMean/24/30*4)-int(denseMean/720)*4+1}部分")
+        denseAns.append(f"{int(denseMean/24/30+1)}-{int(denseMean/24/30*4)-int(denseMean/720)*4+1}")
         # for j in range(50):
         #     value=getNumberInNormalDistribution(denseMean,80)
         #     if value  not in arr:
@@ -191,7 +192,7 @@ def generateData(peak,denseNum,emptyNum):
     temp_arr=[x for x in arr if 0<=x<8760]
     result_list=sorted(temp_arr)
 
-    return result_list,mean,emptyAns
+    return result_list,mean,denseAns,emptyAns
 
 
 def generateDataFile(peak,denseNum,emptyNum):
@@ -219,7 +220,7 @@ def generateDataFile(peak,denseNum,emptyNum):
             "time":[]
         })
     
-    arr,mean,emptyAns=generateData(peak,denseNum,emptyNum)
+    arr,mean,denseAns,emptyAns=generateData(peak,denseNum,emptyNum)
 
 
     quartermonth=0
@@ -253,8 +254,8 @@ def generateDataFile(peak,denseNum,emptyNum):
     max_density=[]
     for i in range(12):
         if len(timeScale3[i]["time"])>=2:
-            kde = gaussian_kde(timeScale3[i]["time"])
-            temp_density = kde(np.linspace(0, timeScale3[i]["timeRange"], 2048))   
+            kde = gaussian_kde(timeScale3[i]["time"],bw_method = 24)
+            temp_density = kde(np.linspace(0, timeScale3[i]["timeRange"], 2048))
             density=[x*len(timeScale3[i]["time"]) for x in temp_density]
             max_density.append({
             "max_value":np.max(density),
@@ -265,13 +266,12 @@ def generateDataFile(peak,denseNum,emptyNum):
             "max_value":0,
             "max_idx":0
             })
-        
     max_dict = max(max_density, key=lambda x: x["max_value"])
     max_idx=max_dict["max_idx"]
     idx = max_density.index(max_dict)
-    
-    print(f"dense在{idx+1}月的{int(max_idx/2049*4)+1}部分")
-    print(f"dense在{idx+1}月的{max_idx/2049*4}部分")
+
+    print(f"dense在{idx+1}月的{int(max_idx/2048*4)+1}部分")
+    print(f"dense在{idx+1}月的{max_idx/2048*4}部分")
     
     
     # 为了找波谷，提前将每个月的总time数存储到一个数组中
@@ -317,9 +317,19 @@ def generateDataFile(peak,denseNum,emptyNum):
         "timeScale3":timeScale3
     }
     
+    data1={
+        "timeScale1":timeScale1,
+        "timeScale3":timeScale3
+    }
     
     #正确答案
-    questionAns=[str(peak_month),str(valley_month),f"{idx+1}-{int(max_idx/2049*4)+1}"]
+    questionAns=[str(peak_month),str(valley_month)]
+    if denseNum==0:
+        questionAns.append(f"{idx+1}-{int(max_idx/2049*4)+1}")
+    elif f"{idx+1}-{int(max_idx/2049*4)+1}" in denseAns:
+        questionAns.append(f"{idx+1}-{int(max_idx/2049*4)+1}")
+    else:
+        questionAns.append(denseAns[random.randint(0,denseNum-1)])
     if emptyNum==0:
         questionAns.append("111-111")
     else:
@@ -353,17 +363,30 @@ def generateDataFile(peak,denseNum,emptyNum):
     
     #第三个问题
     option=[]
-    for j in range(4):
+    if denseNum!=2:
         first,last=questionAns[2].split('-')
-        while True:
-            random_value1=random.randint(1,12)
-            random_value2=random.randint(1,4)
-            if (str(random_value1)!=first or str(random_value2)!=last) and f"{random_value1}-{random_value2}" not in option:
-                break
-        option.append(f"{random_value1}-{random_value2}")
-    option.extend(["no","not sure"])
-    if denseNum!=0:
-        option[random.randint(0,3)]=questionAns[2]
+        for j in range(4):
+            while True:
+                random_value1=random.randint(1,12)
+                random_value2=random.randint(1,4)
+                if (str(random_value1)!=first or str(random_value2)!=last) and f"{random_value1}-{random_value2}" not in option:
+                    break
+            option.append(f"{random_value1}-{random_value2}")
+        option.extend(["no","not sure"])
+        if denseNum==1:
+            option[random.randint(0,3)]=questionAns[2]
+    else:
+        first1,last1=denseAns[0].split('-')
+        first2,last2=denseAns[1].split('-')
+        for j in range(4):
+            while True:
+                random_value1=random.randint(1,12)
+                random_value2=random.randint(1,4)
+                if (str(random_value1)!=first1 or str(random_value2)!=last1) and (str(random_value1)!=first2 or str(random_value2)!=last2) and f"{random_value1}-{random_value2}" not in option:
+                    break
+            option.append(f"{random_value1}-{random_value2}")
+        option.extend(["no","not sure"])
+        option[random.randint(0,3)]=questionAns[2]    
     option[:4]=sorted(option[:4], key=lambda x: (int(x.split('-')[0]), int(x.split('-')[1])))
     options.append(option)
     if denseNum==0:        
@@ -409,13 +432,13 @@ def generateDataFile(peak,denseNum,emptyNum):
     originData=[]
     for i in range(4):
         originData.append({
-            "data":data,
+            "data":data1,
             "Id":problemId+"_"+str(i),
             "problemId":problemId,
             "question":questions[i],
             "questionId":i,
             "options":options[i],
-            "answerIdx":answerIdx[i]
+            # "answerIdx":answerIdx[i]
         })
     
     print(f"正确答案：{questionAns}")
@@ -445,7 +468,7 @@ def generateDataFile(peak,denseNum,emptyNum):
     
     # 拼接文件路径
     file_name = f"{peak_string[peak]}_{denseNum}_{emptyNum}.json"
-    file_path = os.path.join("trial_data/lab1/exercise", file_name)
+    file_path = os.path.join("trial_data/lab1/formal", file_name)
     
     try:
         with open(file_path, "w") as file:
@@ -474,6 +497,7 @@ def generateDataFile(peak,denseNum,emptyNum):
             "Id":problemId+"_"+str(i),
             "problemId": problemId,
             "questionId": i,
+            "options":options[i],
             "answerIdx": answerIdx[i]
         })
 
@@ -482,12 +506,12 @@ def generateDataFile(peak,denseNum,emptyNum):
         json.dump(allAns, file, indent=4)
 
     
-#     # 指定要输出的文件路径
-#     file_path = "data.json"
+    # # 指定要输出的文件路径
+    # file_path = "data.json"
 
-#     # 将数据写入 JSON 文件
-#     with open(file_path, 'w') as json_file:
-#         json.dump(originData, json_file, indent=4)
+    # # 将数据写入 JSON 文件
+    # with open(file_path, 'w') as json_file:
+    #     json.dump(data, json_file, indent=4)
 
 # generateDataFile(1,1,1)
 
