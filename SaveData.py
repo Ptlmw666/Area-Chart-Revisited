@@ -3,6 +3,8 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.dialects.mysql import JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
+from datetime import datetime
+
 
 # # Pydantic 模型
 # class AnswerModel(BaseModel):
@@ -38,6 +40,8 @@ def saveData(data: dict,labIdx: int):
         __tablename__ = "experiments"
         id = Column(Integer, primary_key=True, index=True)
         complete_time = Column(Integer)
+        #time是指现实时间 格式为年月日分秒
+        time = Column(String(50))
         user_id = Column(Integer, ForeignKey('user_info.id'))
 
     class Problem(Base):
@@ -52,6 +56,7 @@ def saveData(data: dict,labIdx: int):
         id = Column(Integer, primary_key=True, index=True)
         answerIdx = Column(Integer)
         spend_time = Column(Integer)
+        chart_type = Column(Integer)
         problem_id = Column(Integer, ForeignKey('problems.id'))
 
     class UserInfo(Base):
@@ -83,6 +88,7 @@ def saveData(data: dict,labIdx: int):
     # 存储实验信息
     experiment = Experiment(
         complete_time=data["completeTime"],
+        time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         user_id=user_info.id
     )
     session.add(experiment)
@@ -104,6 +110,7 @@ def saveData(data: dict,labIdx: int):
             db_answer = Answer(
                 answerIdx=int(answer["answer"]),
                 spend_time=answer["spendTime"],
+                chart_type=answer["chart_type"],
                 problem_id=db_problem.id
             )
             session.add(db_answer)
