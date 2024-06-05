@@ -12548,7 +12548,7 @@
         },
         "Id": "zero_0_2_3",
         "problemId": "zero_0_2",
-        "question": "During which periods are few or no counts observed?",
+        "question": "During which periods were relatively few or no counts  (empty) observed?",
         "questionId": 3,
         "options": [
             "3-2",

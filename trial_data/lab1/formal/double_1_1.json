@@ -12404,7 +12404,7 @@
         },
         "Id": "double_1_1_3",
         "problemId": "double_1_1",
-        "question": "During which periods are few or no counts observed?",
+        "question": "During which periods were relatively few or no counts  (empty) observed?",
         "questionId": 3,
         "options": [
             "3-1",
