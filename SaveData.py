@@ -39,6 +39,7 @@ def saveData(data: dict,labIdx: int):
     class Experiment(Base):
         __tablename__ = "experiments"
         id = Column(Integer, primary_key=True, index=True)
+        order = Column(String(3))
         complete_time = Column(Integer)
         #time是指现实时间 格式为年月日分秒
         time = Column(String(50))
@@ -87,6 +88,7 @@ def saveData(data: dict,labIdx: int):
 
     # 存储实验信息
     experiment = Experiment(
+        order=data["order"],
         complete_time=data["completeTime"],
         time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         user_id=user_info.id

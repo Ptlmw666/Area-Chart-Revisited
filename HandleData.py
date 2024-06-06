@@ -84,6 +84,7 @@ Base = declarative_base()
 class Experiment(Base):
     __tablename__ = "experiments"
     id = Column(Integer, primary_key=True, index=True)
+    order = Column(String(3))
     complete_time = Column(Integer)
     time = Column(String(50))
     user_id = Column(Integer, ForeignKey('user_info.id'))
