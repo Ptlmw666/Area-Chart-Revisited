@@ -67,6 +67,7 @@ def saveData(data: dict,labIdx: int):
         gender = Column(String(10))
         age = Column(String(3))
         major = Column(String(50))
+        familiarity = Column(String(50))
         contact = Column(String(20))
 
     # 创建表
@@ -80,6 +81,7 @@ def saveData(data: dict,labIdx: int):
         gender=data["userInfo"]["gender"],
         age=data["userInfo"]["age"],
         major=data["userInfo"]["major"],
+        familiarity=data["userInfo"]["familiarity"],
         contact=data["userInfo"]["contact"]
     )
     session.add(user_info)

@@ -111,6 +111,7 @@ class UserInfo(Base):
     gender = Column(String(10))
     age = Column(String(3))
     major = Column(String(50))
+    familiarity = Column(String(50))
     contact = Column(String(20))
 
 
