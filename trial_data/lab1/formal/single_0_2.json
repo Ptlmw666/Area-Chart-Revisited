@@ -2913,8 +2913,8 @@
             "6",
             "7",
             "9",
-            "no",
-            "not sure"
+            "没有",
+            "不确定"
         ]
     },
     {
@@ -5831,8 +5831,8 @@
             "5",
             "6",
             "9",
-            "no",
-            "not sure"
+            "没有",
+            "不确定"
         ]
     },
     {
@@ -8749,8 +8749,8 @@
             "4-2",
             "8-2",
             "12-4",
-            "no",
-            "not sure"
+            "没有",
+            "不确定"
         ]
     },
     {
@@ -11660,15 +11660,15 @@
         },
         "Id": "single_0_2_3",
         "problemId": "single_0_2",
-        "question": "During which periods were relatively few or no counts  (empty) observed?",
+        "question": "During which periods were relatively few or no counts  (sparse) observed?",
         "questionId": 3,
         "options": [
             "1-2",
             "3-3",
             "7-4",
             "10-4",
-            "no",
-            "not sure"
+            "没有",
+            "不确定"
         ]
     }
 ]

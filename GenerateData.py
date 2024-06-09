@@ -23,7 +23,7 @@ questions = [
   'In which month does the peak occur? ',
   'In which month does the valley occur?',
   'During which periods are the observed counts dense?',
-  'During which periods are few or no counts observed?'
+  'During which periods were relatively few or no counts  (sparse) observed?'
 ]
 
 # 生成符合标准正态分布的数据
@@ -350,7 +350,7 @@ def generateDataFile(peak,denseNum,emptyNum):
                 if str(random_value)!=questionAns[i] and str(random_value) not in option:
                     break
             option.append(str(random_value))
-        option.extend(["no","not sure"])
+        option.extend(["没有","不确定"])
         if int(questionAns[i])!=-1:
             option[random.randint(0,3)]=questionAns[i]
         option[:4] = sorted(option[:4], key=int)
@@ -372,7 +372,7 @@ def generateDataFile(peak,denseNum,emptyNum):
                 if (str(random_value1)!=first or str(random_value2)!=last) and f"{random_value1}-{random_value2}" not in option:
                     break
             option.append(f"{random_value1}-{random_value2}")
-        option.extend(["no","not sure"])
+        option.extend(["没有","不确定"])
         if denseNum==1:
             option[random.randint(0,3)]=questionAns[2]
     else:
@@ -385,7 +385,7 @@ def generateDataFile(peak,denseNum,emptyNum):
                 if (str(random_value1)!=first1 or str(random_value2)!=last1) and (str(random_value1)!=first2 or str(random_value2)!=last2) and f"{random_value1}-{random_value2}" not in option:
                     break
             option.append(f"{random_value1}-{random_value2}")
-        option.extend(["no","not sure"])
+        option.extend(["没有","不确定"])
         option[random.randint(0,3)]=questionAns[2]    
     option[:4]=sorted(option[:4], key=lambda x: (int(x.split('-')[0]), int(x.split('-')[1])))
     options.append(option)
@@ -405,7 +405,7 @@ def generateDataFile(peak,denseNum,emptyNum):
                 if (str(random_value1)!=first or str(random_value2)!=last) and f"{random_value1}-{random_value2}" not in option:
                     break
             option.append(f"{random_value1}-{random_value2}")
-        option.extend(["no","not sure"])
+        option.extend(["没有","不确定"])
         if emptyNum==1:
             option[random.randint(0,3)]=questionAns[3]
     else:
@@ -418,7 +418,7 @@ def generateDataFile(peak,denseNum,emptyNum):
                 if (str(random_value1)!=first1 or str(random_value2)!=last1) and (str(random_value1)!=first2 or str(random_value2)!=last2) and f"{random_value1}-{random_value2}" not in option:
                     break
             option.append(f"{random_value1}-{random_value2}")
-        option.extend(["no","not sure"])
+        option.extend(["没有","不确定"])
         option[random.randint(0,3)]=questionAns[3]
     option[:4]=sorted(option[:4], key=lambda x: (int(x.split('-')[0]), int(x.split('-')[1])))
     options.append(option)
@@ -469,6 +469,7 @@ def generateDataFile(peak,denseNum,emptyNum):
     # 拼接文件路径
     file_name = f"{peak_string[peak]}_{denseNum}_{emptyNum}.json"
     file_path = os.path.join("trial_data/lab1/formal", file_name)
+    # file_path = os.path.join("trial_data/lab1/exercise", file_name)
     
     try:
         with open(file_path, "w") as file:
