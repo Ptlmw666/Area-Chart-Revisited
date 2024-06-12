@@ -72,7 +72,8 @@ async def generate_trail_problem(labIdx: int,type: int):
         #     return {"data": originData}
         if type==1:
             originData=[]
-            folder_path = f"trial_data/lab{labIdx}/{doc[type]}"
+            # folder_path = f"trial_data/lab{labIdx}/{doc[type]}"
+            folder_path = f"trial_data/lab1/{doc[type]}"
             for filename in os.listdir(folder_path):
                 file_path = os.path.join(folder_path, filename)
                 with open(file_path, "r") as file:
