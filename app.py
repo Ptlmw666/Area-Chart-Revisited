@@ -57,7 +57,8 @@ async def generate_trail_problem(labIdx: int,type: int):
     try:
         doc=["exercise","formal"]
         if type==0:
-            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab{labIdx}/{doc[type]}/double_1_1.json")
+            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab1/{doc[type]}/double_1_1.json")
+            # file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab{labIdx}/{doc[type]}/double_1_1.json")
             with open(file_path, "r") as file:
                 originData = json.load(file)
             return {"data": originData}
