@@ -179,7 +179,7 @@
             "\u6ca1\u6709",
             "\u4e0d\u786e\u5b9a"
         ],
-        "answerIdx": 3
+        "answerIdx": 2
     },
     {
         "Id": "single_0_2_1",
@@ -426,12 +426,12 @@
         "options": [
             "2-3",
             "3-1",
-            "10-3",
+            "11-1",
             "11-2",
             "\u6ca1\u6709",
             "\u4e0d\u786e\u5b9a"
         ],
-        "answerIdx": 3
+        "answerIdx": 2
     },
     {
         "Id": "double_1_1_3",
