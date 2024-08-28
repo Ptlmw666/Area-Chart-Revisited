@@ -4,8 +4,6 @@ import json
 from GenerateData import generateDataFile
 from SaveData import saveData
 from fastapi.middleware.cors import CORSMiddleware
-from sskernel import sskernel
-import numpy as np
 
 app = FastAPI()
 
@@ -59,10 +57,16 @@ async def generate_trail_problem(labIdx: int,type: int):
     try:
         doc=["exercise","formal"]
         if type==0:
-            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab1/{doc[type]}/double_1_1.json")
-            # file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab{labIdx}/{doc[type]}/double_1_1.json")
+            originData=[]
+            # file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab2/{doc[type]}/double_1_1.json")
+            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab{labIdx}/{doc[type]}/double_1_1.json")
             with open(file_path, "r") as file:
-                originData = json.load(file)
+                data = json.load(file)
+            originData.extend(data)
+            file_path = os.path.join(os.path.dirname(__file__), f"trial_data/lab{labIdx}/{doc[type]}/zero_1_1.json")
+            with open(file_path, "r") as file:
+                data = json.load(file)
+            originData.extend(data)
             return {"data": originData}
         # if type==0:
         #     originData=[]
@@ -98,36 +102,6 @@ async def receive_experiment_data(data: dict):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to process data: {str(e)}")
 
-#自适应带宽核密度估计 根据前端请求的数组生成核密度估计值返回
-@app.post('/kde/get')
-async def adaptive_bandwidth_kde(data:dict):
-    x = data["x"]
-    bins_num = data["binsNum"]
-    nbs = 1000
-    W = None
-    increment = (8760 /(bins_num * 12))
-    tin = [i * increment for i in range(int(8760 / increment) + 1)]
-
-    result  =  sskernel(np.array(x), tin, W, nbs);
-
-    try:
-        y = result[0].tolist() if hasattr(result[0], 'tolist') else result[0]
-        t = result[1].tolist() if hasattr(result[1], 'tolist') else result[1]
-
-        combined_list = [{"x": t_val, "y": y_val} for t_val, y_val in zip(t, y)]
-
-        return {
-            "density": combined_list,
-            "optw": float(result[2]) if isinstance(result[2], (int, float)) else result[2],
-            # "W": result[3].tolist() if hasattr(result[3], 'tolist') else result[3],
-            # "C": result[4].tolist() if hasattr(result[4], 'tolist') else result[4],
-            # "confb95": result[5].tolist() if hasattr(result[5], 'tolist') else result[5],
-            # "yb": result[6].tolist() if hasattr(result[6], 'tolist') else result[6]
-        }
-    except Exception as e:
-        print(f"Error during serialization: {e}")
-        raise
-    
 
 if __name__ == '__main__':
     import uvicorn
